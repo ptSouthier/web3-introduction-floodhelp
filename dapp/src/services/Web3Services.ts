@@ -44,4 +44,12 @@ export async function openHelpRequest({ title, description, contact, goal }: Hel
 export async function closeHelpRequest(id: number) {
   const contract = getContract();
   return contract.methods.closeHelpRequest(id).send();
-}
+};
+
+export async function donate(id: number, donationInBnb: number) {
+  const contract = getContract();
+
+  return contract.methods.donate(id).send({
+    value: Web3.utils.toWei(donationInBnb, "ether")
+  });
+};
