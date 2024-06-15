@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import ABI from "./ABI.json";
-import { HelpRequest } from "@/types";
+import { HelpRequest, PartialHelpRequest } from "@/types";
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 
@@ -36,7 +36,7 @@ export async function getOpenHelpRequests(lastId = 0): Promise<HelpRequest[]> {
   return validHelpRequests;
 };
 
-export async function openHelpRequest({ title, description, contact, goal }: HelpRequest) {
+export async function openHelpRequest({ title, description, contact, goal }: PartialHelpRequest) {
   const contract = getContract();
   return contract.methods.openHelpRequest(title, description, contact, Web3.utils.toWei(goal, "ether")).send();
 };
