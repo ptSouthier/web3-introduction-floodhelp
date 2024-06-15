@@ -40,3 +40,8 @@ export async function openHelpRequest({ title, description, contact, goal }: Hel
   const contract = getContract();
   return contract.methods.openHelpRequest(title, description, contact, Web3.utils.toWei(goal, "ether")).send();
 };
+
+export async function closeHelpRequest(id: number) {
+  const contract = getContract();
+  return contract.methods.closeHelpRequest(id).send();
+}
