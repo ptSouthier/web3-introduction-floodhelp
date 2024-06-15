@@ -4,10 +4,14 @@ import { HelpRequest } from "@/types";
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 
-export async function doLogin() {
+function initializeWeb3() {
   if (!window.ethereum) throw new Error('MetaMask is not installed!');
 
-  const web3 = new Web3(window.ethereum);
+  return new Web3(window.ethereum);
+};
+
+export async function doLogin() {
+  const web3 = initializeWeb3();
   const accounts = await web3.eth.requestAccounts();
 
   if (!accounts || !accounts.length) throw new Error('Wallet not found!');
