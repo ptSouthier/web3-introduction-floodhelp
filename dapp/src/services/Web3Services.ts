@@ -10,6 +10,14 @@ function initializeWeb3() {
   return new Web3(window.ethereum);
 };
 
+function getContract() {
+  const web3 = initializeWeb3();
+
+  const loggedWallet = localStorage.getItem('wallet') || undefined;
+
+  return new web3.eth.Contract(ABI, CONTRACT_ADDRESS, { from: loggedWallet });
+};
+
 export async function doLogin() {
   const web3 = initializeWeb3();
   const accounts = await web3.eth.requestAccounts();
@@ -21,12 +29,7 @@ export async function doLogin() {
 };
 
 export async function getOpenHelpRequests(lastId = 0): Promise<HelpRequest[]> {
-  if (!window.ethereum) throw new Error('MetaMask is not installed!');
-
-  const loggedWallet = localStorage.getItem('wallet') || undefined;
-  const web3 = new Web3(window.ethereum);
-
-  const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS, { from: loggedWallet });
+  const contract = getContract();
   const helpRequests: HelpRequest[] = await contract.methods.getOpenHelpRequests(lastId + 1).call();
   const validHelpRequests = helpRequests.filter((helpRequest) => helpRequest.title !== '');
 
