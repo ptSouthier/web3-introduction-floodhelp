@@ -35,3 +35,8 @@ export async function getOpenHelpRequests(lastId = 0): Promise<HelpRequest[]> {
 
   return validHelpRequests;
 };
+
+export async function openRequest({ title, description, contact, goal }: HelpRequest) {
+  const contract = getContract();
+  return contract.methods.openRequest(title, description, contact, Web3.utils.toWei(goal, "ether")).send();
+};
